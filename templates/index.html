@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Träningscoach V3</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(180deg, #101010, #1a1a1a);
+            color: white;
+            min-height: 100vh;
+        }
+
+        .app {
+            max-width: 430px;
+            margin: 0 auto;
+            min-height: 100vh;
+            padding: 18px 14px 30px;
+        }
+
+        .topbar {
+            text-align: center;
+            padding: 18px 10px 8px;
+        }
+
+        .topbar h1 {
+            margin: 0;
+            font-size: 30px;
+            font-weight: 800;
+        }
+
+        .topbar p {
+            margin: 8px 0 0;
+            color: #b8b8b8;
+            font-size: 14px;
+        }
+
+        .card {
+            background: #1f1f1f;
+            border: 1px solid #2b2b2b;
+            border-radius: 24px;
+            padding: 18px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+            margin-top: 16px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin: 0 0 14px;
+        }
+
+        .field {
+            margin-bottom: 14px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-size: 14px;
+            font-weight: 700;
+            color: #f1f1f1;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 14px 14px;
+            border-radius: 16px;
+            border: 1px solid #343434;
+            background: #121212;
+            color: white;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus, select:focus {
+            border-color: #7aa8ff;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 18px;
+            background: white;
+            color: black;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+            margin-top: 4px;
+        }
+
+        button:hover {
+            opacity: 0.95;
+        }
+
+        .result-box {
+            margin-top: 18px;
+            background: #151515;
+            border: 1px solid #2d2d2d;
+            border-radius: 22px;
+            padding: 18px;
+        }
+
+        .result-box h2 {
+            margin: 0 0 12px;
+            font-size: 22px;
+        }
+
+        .result-text {
+            white-space: normal;
+            line-height: 1.7;
+            color: #f4f4f4;
+            font-size: 15px;
+        }
+
+        .mini-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .mini-card {
+            background: #171717;
+            border: 1px solid #2a2a2a;
+            border-radius: 18px;
+            padding: 12px;
+        }
+
+        .mini-card strong {
+            display: block;
+            font-size: 13px;
+            margin-bottom: 6px;
+        }
+
+        .mini-card span {
+            color: #bdbdbd;
+            font-size: 13px;
+        }
+
+        .footer-space {
+            height: 20px;
+        }
+
+        @media (min-width: 700px) {
+            .app {
+                max-width: 520px;
+                padding-top: 28px;
+            }
+
+            .topbar h1 {
+                font-size: 34px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <div class="topbar">
+            <h1>AI Träningscoach</h1>
+            <p>Mobilvänlig version med bättre känsla</p>
+        </div>
+
+        <div class="card">
+            <h2 class="section-title">Skapa ditt pass</h2>
+
+            <form method="POST">
+                <div class="field">
+                    <label for="muscle">Muskelgrupp</label>
+                    <input type="text" id="muscle" name="muscle" placeholder="Till exempel rygg" required>
+                </div>
+
+                <div class="field">
+                    <label for="level">Nivå</label>
+                    <select id="level" name="level" required>
+                        <option value="nybörjare">Nybörjare</option>
+                        <option value="medel">Medel</option>
+                        <option value="avancerad">Avancerad</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label for="time">Tid (minuter)</label>
+                    <input type="number" id="time" name="time" placeholder="Till exempel 45" required>
+                </div>
+
+                <div class="field">
+                    <label for="goal">Mål</label>
+                    <select id="goal" name="goal" required>
+                        <option value="bygga muskler">Bygga muskler</option>
+                        <option value="bli starkare">Bli starkare</option>
+                        <option value="gå ner i vikt">Gå ner i vikt</option>
+                        <option value="bättre kondition">Bättre kondition</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label for="place">Plats</label>
+                    <select id="place" name="place" required>
+                        <option value="gym">Gym</option>
+                        <option value="hemma">Hemma</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label for="equipment">Utrustning</label>
+                    <select id="equipment" name="equipment" required>
+                        <option value="full utrustning">Full utrustning</option>
+                        <option value="hantlar">Hantlar</option>
+                        <option value="bara kroppsvikt">Bara kroppsvikt</option>
+                    </select>
+                </div>
+
+                <button type="submit">Skapa träningspass</button>
+            </form>
+
+            <div class="mini-cards">
+                <div class="mini-card">
+                    <strong>Snabbt</strong>
+                    <span>Få ett pass på några sekunder.</span>
+                </div>
+                <div class="mini-card">
+                    <strong>Smart</strong>
+                    <span>AI anpassar efter dina val.</span>
+                </div>
+            </div>
+        </div>
+
+        {% if workout %}
+        <div class="result-box">
+            <h2>Ditt träningspass</h2>
+            <div class="result-text">{{ workout | replace('\n','<br>') | safe }}</div>
+        </div>
+        {% endif %}
+
+        <div class="footer-space"></div>
+    </div>
+</body>
+</html>
